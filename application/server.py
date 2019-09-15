@@ -10,8 +10,9 @@ def hello(req, resp):
 
 @api.route("/api/prediction/iris")
 class PredictionIrisResource:
-    def on_post(self, req, resp):
-        resp.media = {"results": []}
+    async def on_post(self, req, resp):
+        r = await req.media()
+        resp.media = {"results": [], "resuest": r}
 
 
 if __name__ == "__main__":
