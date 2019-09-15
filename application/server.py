@@ -16,4 +16,4 @@ class PredictionIrisResource:
 
 
 if __name__ == "__main__":
-    api.run()
+    api.run(workers=2)
