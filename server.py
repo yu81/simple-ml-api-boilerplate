@@ -1,5 +1,7 @@
 import responder
 
+from predictions import task as prediction_task
+
 api = responder.API()
 
 
@@ -12,7 +14,14 @@ def hello(req, resp):
 class PredictionIrisResource:
     async def on_post(self, req, resp):
         r = await req.media()
-        resp.media = {"results": [], "resuest": r}
+        print(r)
+        scores = prediction_task.predict_proba(r["data"])
+        results = prediction_task.predict(r["data"])
+        resp.media = {
+            "scores": scores.tolist(),
+            "result": results.tolist(),
+            "request": r,
+        }
 
 
 if __name__ == "__main__":
