@@ -14,8 +14,14 @@ def hello(req, resp):
 class PredictionIrisResource:
     async def on_post(self, req, resp):
         r = await req.media()
-        prediction_task.score(r["data"])
-        resp.media = {"results": [], "resuest": r}
+        print(r)
+        scores = prediction_task.predict_proba(r["data"])
+        results = prediction_task.predict(r["data"])
+        resp.media = {
+            "scores": scores.tolist(),
+            "result": results.tolist(),
+            "request": r,
+        }
 
 
 if __name__ == "__main__":
