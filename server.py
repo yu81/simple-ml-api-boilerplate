@@ -1,5 +1,7 @@
 import responder
 
+from predictions import task as prediction_task
+
 api = responder.API()
 
 
@@ -12,6 +14,7 @@ def hello(req, resp):
 class PredictionIrisResource:
     async def on_post(self, req, resp):
         r = await req.media()
+        prediction_task.score(r["data"])
         resp.media = {"results": [], "resuest": r}
 
 
